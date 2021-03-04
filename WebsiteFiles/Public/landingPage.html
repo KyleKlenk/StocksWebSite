@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Kyle Klenk</title>
+        <!-- <form action="/logout/" method="post">
+          
+            <button type="submit"> Logout </button>
+        </form> -->
+        <style>
+            body {
+                background-color: darkgray;
+            }
+            .center {
+                margin: auto;
+                width: 40%;
+                border: 3px solid black;
+                padding: 5px;
+                text-align: center;
+            }
+            table {
+                margin: auto;
+                border: 2px solid black;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="center">
+            <h2> Portfolio </h2>
+            <table id="portfolio" border=1>
+                <tr> 
+                    <td> Ticker Symbol </td> 
+                    <td> Buy Price </td>
+                    <td> Current Price </td>
+                    <td> Total Value </td>
+                    <td> Percentage </td>
+                    <td> Shares </td>
+                </tr>
+            </table>
+
+            <button onclick=getStocks()>
+                Click Me
+            </button>
+        </div>
+        
+        <br />
+
+        <div class="center">
+            <h2> Buy Stock</h2>
+            <label for="stockTicker"> Ticker Symbol: </label>
+            <input id="stockTicker" type="text" /> <br />
+            <label for="buyPrice"> Buy Price: </label>
+            <input id="buyPrice" type="number" /> <br />
+            <label for="shares" type="number"> Shares: </label>
+            <input id="shares" type="number" /> <br />
+            <button onclick=buyStock()> Buy Stock </button>
+        </div>
+
+        <br />
+
+        <div class="center">
+            <h2> Sell Stock </h2>
+            <label for="stockTickerSell"> Ticker Symbol: </label>
+            <input id="stockTickerSell" type="text" /> <br />
+            <label for="sellPrice"> Sell Price: </label>
+            <input id="sellPrice" type="number" /> <br />
+            <label for="shares" type="number"> Shares: </label>
+            <input id="sellShares" type="number" /> <br />
+            <button> Sell Stock </button>
+        </div>
+
+
+        <script type="text/javascript">
+            var rows = 0
+            
+            function getStocks() {
+                request = new XMLHttpRequest();
+                request.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var data = JSON.parse(this.responseText);
+                        var table = document.getElementById("portfolio");
+                        while (rows > 0) {
+                            rows -= 1
+                            table.deleteRow(-1)
+                        }
+                        for (row in data) {
+                            rows += 1
+                            console.log(data[row]);
+                            var newRow = table.insertRow(-1);
+                            var newTicker = newRow.insertCell(0);
+                            var newTickerText = document.createTextNode(
+                                data[row].tickerSymbol);
+                            newTicker.append(newTickerText);
+
+                            var newBuyPrice = newRow.insertCell(1);
+                            var newBuyPriceText = document.createTextNode(
+                                data[row].buyPrice);
+                            newBuyPrice.append("$");
+                            newBuyPrice.append(newBuyPriceText);
+
+                            var newCurrentPrice = newRow.insertCell(2);
+                            var newCurrentPriceText = document.createTextNode(
+                                data[row].currentPrice);
+                            newCurrentPrice.append("$");
+                            newCurrentPrice.append(newCurrentPriceText);
+
+                            var newTotalValue = newRow.insertCell(3);
+                            var newTotalValueText = document.createTextNode(
+                                data[row].currentValue);
+                            newTotalValue.append("$")
+                            newTotalValue.append(newTotalValueText);
+
+                            var newPercentage = newRow.insertCell(4);
+                            var newPercentageText = document.createTextNode(
+                                data[row].percentage);
+                            newPercentage.append(newPercentageText);
+                            newPercentage.append("%");
+
+                            var newShares = newRow.insertCell(5);
+                            var newSharesText = document.createTextNode(
+                                data[row].numShares);
+                            newShares.append(newSharesText);
+                        }
+                    }
+                }
+                request.open("Get", "/getStocks", true);
+                request.send();
+            }
+
+            function buyStock() {
+                request = new XMLHttpRequest();
+                params = "stockTicker=" + document.getElementById("stockTicker").value +
+                "&buyPrice=" + document.getElementById("buyPrice").value +
+                "&shares=" + document.getElementById("shares").value;
+                request.open("POST", "/buyStock", true);
+                request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                request.send(params)
+
+            }
+
+            // function submitFromData() {
+            //     var request = new XMLHttpRequest();
+            //     var form = document.getElementById("buyStockForm");
+            //     request.open("Post", "/buyStock/", true);
+            //     send(form)
+            // }
+        </script>
+        
+    </body>
+</html>
+
+    

@@ -1,0 +1,24 @@
+version: '3.8'
+services:
+  stock_website_server:
+    build: ./
+    depends_on: 
+      - stock_data
+    tty: true
+    container_name: stockWebsiteServer
+    ports:
+      - "80:80"
+    volumes:
+      - ./WebsiteFiles:/usr/src/app:Z
+
+  stock_data:
+    image: mysql:5.7.31
+    container_name: stockData
+    tty: true
+    ports:
+      - "3308:3308"
+    environment:
+     MYSQL_ROOT_PASSWORD: admin
+     MYSQL_HOST:
+    volumes:
+      - ./WebsiteFiles/SQL:/home:Z
