@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Login </title>
+        <style>
+            body {
+                background-color: darkgray;
+            }
+
+            .center {
+                margin: auto;
+                width: 40%;
+                border: 3px solid black;
+                padding: 5px;
+                text-align: center;
+            }
+
+        </style>
+    </head>
+    <body>
+        <br />
+        <br />
+        <div class="center">
+            <h2> Welcome To kyleklenk.com</h2>
+            <h3> Login Required </h3>
+            <form method="POST" action="/login">
+                <label for="username"> Username </label> <br/>
+                <input id="username" name="username" type="text"/> <br/>
+                <label for="password"> Password </label> <br/>
+                <input id="password" name="password" type="password" /> <br />
+                <input type="submit" value="login">
+            </form>
+        </div>
+    </body>
+</html>

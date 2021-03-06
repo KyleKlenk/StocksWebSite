@@ -1,2 +1,2 @@
-CREATE DATABASE StockData;
-use StockData;
+CREATE DATABASE stocks;
+use stocks;
